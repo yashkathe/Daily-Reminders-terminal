@@ -164,6 +164,7 @@ requests-kerberos==0.12.0
 requests-ntlm==1.1.0
 resolvelib==0.8.1
 scapy==2.4.4
+schedule==1.2.2
 scikit-learn==1.4.2
 scipy==1.8.0
 SecretStorage==3.3.1
