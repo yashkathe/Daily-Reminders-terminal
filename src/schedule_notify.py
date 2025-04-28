@@ -28,6 +28,8 @@ def schedule_reminder(task_name, task_time, repeat_type):
             schedule.every().hour.at(f":{minutes}").do(job)
         elif repeat_type == "d":
             schedule.every().day.at(task_time).do(job)
+        else:
+            schedule.every().day.at(task_time).do(job)
     
     except Exception as e:
         error_and_exit(e)

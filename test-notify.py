@@ -21,5 +21,6 @@
 
 import notify2
 notify2.init('Test')
+
 n = notify2.Notification("Test Title", "Test Body")
 n.show()
