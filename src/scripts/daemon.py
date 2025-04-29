@@ -1,19 +1,20 @@
 import schedule
 import time
 
-from database import init_database, list_tasks
-from schedule_notify import schedule_reminder
+from src.database import init_database, list_tasks
+from src.schedule_notify import schedule_reminder
 
 def main():
-    
-    # init database
     init_database()
-
-    # load all saved tasks & schedule them
-    for task_name, task_time, repeat_type in list_tasks():
-        schedule_reminder(task_name, task_time, repeat_type)
+    scheduled_set = set()
 
     while True:
+        for task_name, task_time, repeat_type in list_tasks():
+            key = (task_name, task_time, repeat_type)
+            if key not in scheduled_set:
+                schedule_reminder(task_name, task_time, repeat_type)
+                scheduled_set.add(key)
+
         schedule.run_pending()
         time.sleep(1)
 

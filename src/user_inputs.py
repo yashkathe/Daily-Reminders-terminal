@@ -2,7 +2,7 @@ import time
 import re
 from datetime import datetime
 
-from util.error_fn import error_and_exit
+from src.util.error_fn import error_and_exit
 
 def get_user_inputs():
 

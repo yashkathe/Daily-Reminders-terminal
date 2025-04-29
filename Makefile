@@ -15,49 +15,37 @@ install:
 
 run:
 	@echo "🚀 Running program (add task)..."
-	$(PYTHON) $(MAIN)
+	$(PYTHON) -m src.main
 
 add:
 	@echo "➕ Adding a new reminder..."
-	$(PYTHON) $(MAIN) --add_reminder
+	$(PYTHON) -m src.main --add_reminder
 
 list:
 	@echo "📋 Listing all reminders..."
-	$(PYTHON) $(MAIN) --list
+	$(PYTHON) -m src.main --list
 
 enable_service:
-	@echo "🛠 Setting up systemd service..."
-	@sudo bash -c 'cat > /etc/systemd/system/task_notifier.service' <<EOF
-[Unit]
-Description=Task Notifier Daemon
-After=network.target
-
-[Service]
-ExecStart=/usr/bin/python3 $(shell pwd)/$(DAEMON)
-Restart=always
-User=$(shell whoami)
-WorkingDirectory=$(shell pwd)
-StandardOutput=inherit
-StandardError=inherit
-
-[Install]
-WantedBy=multi-user.target
-EOF
-	sudo systemctl daemon-reload
-	sudo systemctl enable task_notifier
-	sudo systemctl start task_notifier
-	@echo "✅ Service enabled and started."
+	@echo "🛠 Setting up user systemd service..."
+	@mkdir -p ~/.config/systemd/user
+	@sed "s|/REPO_PATH|$(shell pwd)|g" src/scripts/task_notifier.service | \
+	sed "s|USERNAME|$(shell whoami)|g" | \
+	tee ~/.config/systemd/user/task_notifier.service > /dev/null
+	systemctl --user daemon-reload
+	systemctl --user enable task_notifier
+	systemctl --user start task_notifier
+	@echo "✅ User service enabled and started."
 
 disable_service:
-	@echo "🛑 Stopping and disabling service..."
-	@sudo systemctl stop task_notifier
-	@sudo systemctl disable task_notifier
-	@sudo rm -f /etc/systemd/system/task_notifier.service
-	@sudo systemctl daemon-reload
-	@echo "✅ Service disabled."
+	@echo "🛑 Stopping and disabling user service..."
+	systemctl --user stop task_notifier
+	systemctl --user disable task_notifier
+	@rm -f ~/.config/systemd/user/task_notifier.service
+	systemctl --user daemon-reload
+	@echo "✅ User service disabled."
 
 status_service:
-	@sudo systemctl status task_notifier
+	systemctl --user status task_notifier
 
 restart_service:
-	@sudo systemctl restart task_notifier
+	systemctl --user restart task_notifier

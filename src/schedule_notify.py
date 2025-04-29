@@ -1,9 +1,9 @@
 import schedule
 import notify2
-from util.error_fn import error_and_exit
 from datetime import datetime
 
-from user_inputs import get_user_inputs
+from src.util.error_fn import error_and_exit
+from src.user_inputs import get_user_inputs
 
 def init_notify2():
     notify2.init('User Reminder')
@@ -13,6 +13,7 @@ init_notify2()
 def send_notification(task_name):
 
     notification = notify2.Notification("Task Reminder", f"Time to: {task_name}")
+    print(task_name)
     notification.set_urgency(notify2.URGENCY_NORMAL)
     notification.set_timeout(5000)
     notification.show()

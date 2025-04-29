@@ -1,0 +1,15 @@
+[Unit]
+Description=Task Notifier Daemon
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/python3 -m src.scripts.daemon
+Restart=always
+WorkingDirectory=/REPO_PATH
+Environment=DISPLAY=:0
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%U/bus
+StandardOutput=inherit
+StandardError=inherit
+
+[Install]
+WantedBy=default.target
