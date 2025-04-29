@@ -8,22 +8,30 @@ MAIN=src/main.py
 PYTHON=python3
 
 install:
-	@echo "🔧 Installing dependencies..."
+	@echo "\n🔧 Installing dependencies...\n"
 	$(PYTHON) -m pip install --upgrade pip
 	$(PYTHON) -m pip install -r requirements.txt
 	@echo "✅ Dependencies installed."
 
 run:
-	@echo "🚀 Running program (add task)..."
+	@echo "\n🚀 Running program (add task)...\n"
 	$(PYTHON) -m src.main
+	@echo
 
 add:
-	@echo "➕ Adding a new reminder..."
+	@echo "\n➕ Adding a new reminder...\n"
 	$(PYTHON) -m src.main --add_reminder
+	@echo
 
 list:
-	@echo "📋 Listing all reminders..."
+	@echo "\n📋 Listing all reminders...\n"
 	$(PYTHON) -m src.main --list
+	@echo
+
+delete:
+	@echo "\n🗑️ Select a reminder to delete...\n"
+	$(PYTHON) -m src.main --del_reminder
+	@echo
 
 enable_service:
 	@echo "🛠 Setting up user systemd service..."

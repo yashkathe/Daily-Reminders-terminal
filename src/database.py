@@ -34,6 +34,20 @@ def add_task(name, time, repeat_type):
     conn.close()
 
 
+def del_task(name, time):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        DELETE FROM tasks
+        WHERE name = ? AND time = ?
+        """,
+        (name, time),
+    )
+    conn.commit()
+    conn.close()
+
+
 def list_tasks():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
