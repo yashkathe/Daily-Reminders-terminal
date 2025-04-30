@@ -1,8 +1,10 @@
-import schedule
 import time
+
+import schedule
 
 from src.database import init_database, list_tasks
 from src.schedule_notify import schedule_reminder
+
 
 def main():
     init_database()
@@ -17,6 +19,7 @@ def main():
 
         schedule.run_pending()
         time.sleep(1)
+
 
 if __name__ == "__main__":
     main()
