@@ -1,3 +1,6 @@
+# Move back a directory
+cd ../
+
 # Step 1: Delete old broken venv
 rm -rf bin lib lib64 pyvenv.cfg
 

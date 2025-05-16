@@ -1,5 +1,7 @@
 import sqlite3
 
+from src.util.error_fn import error_and_exit
+
 DB_FILE = "tasks.db"
 
 
@@ -22,7 +24,7 @@ def init_database():
         conn.close()
 
     except Exception as e:
-        print(f"database error: {e}")
+        error_and_exit(f"database error: {e}")
 
 
 def add_task(name, time, repeat_type):
@@ -41,7 +43,7 @@ def add_task(name, time, repeat_type):
         conn.close()
 
     except Exception as e:
-        print(f"database error: {e}")
+        error_and_exit(f"database error: {e}")
 
 
 def del_task(name, time):
@@ -60,7 +62,7 @@ def del_task(name, time):
         conn.close()
 
     except Exception as e:
-        print(f"database error: {e}")
+        error_and_exit(f"database error: {e}")
 
 
 def list_tasks():
@@ -74,4 +76,4 @@ def list_tasks():
         return tasks
 
     except Exception as e:
-        print(f"database error: {e}")
+        error_and_exit(f"database error: {e}")

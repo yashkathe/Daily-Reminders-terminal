@@ -25,27 +25,30 @@ def unpack_reminders():
     tasks = list_tasks()
 
     # list tasks
-    for i, [task, time, _] in enumerate(tasks):
-        print(f"{i + 1} => {task} @ {time}")
+    if tasks:
+        for i, [task, time, _] in enumerate(tasks):
+            print(f"{i + 1} => {task} @ {time}")
 
 
 def delete_reminder():
 
     tasks = list_tasks()
 
-    # list out all the options
-    choices = questionary.checkbox(
-        "Select a Reminder to Delete:",
-        choices=[f"{task} @ {time}" for task, time, _ in tasks],
-    ).ask()
+    if tasks:
 
-    # delete tasks from db
-    for choice in choices:
-        choice = choice.split("@")
-        name, time = choice[0].strip(), choice[1].strip()
-        del_task(name, time)
-        print(f"{name} @ {time} deleted successfully")
-    
+        # list out all the options
+        choices = questionary.checkbox(
+            "Select a Reminder to Delete:",
+            choices=[f"{task} @ {time}" for task, time, _ in tasks],
+        ).ask()
+
+        # delete tasks from db
+        for choice in choices:
+            choice = choice.split("@")
+            name, time = choice[0].strip(), choice[1].strip()
+            del_task(name, time)
+            print(f"{name} @ {time} deleted successfully")
+
 
 if __name__ == "__main__":
 
@@ -70,4 +73,5 @@ if __name__ == "__main__":
     elif args.add_reminder or not any(vars(args).values()):
         add_reminder()
     else:
-        list_options(err=True)
+        print("Not a valid argument")
+        parser.print_help()
